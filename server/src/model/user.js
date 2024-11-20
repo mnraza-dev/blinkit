@@ -6,20 +6,47 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    role:{
+    role: {
         type: String,
         required: true,
-        enum:["Customer", "Admin", "DeliveryPartner"]
+        enum: ["Customer", "Admin", "DeliveryPartner"]
     },
-    isActivated:{
+    isActivated: {
         type: Boolean,
         default: false
     }
 });
 
 // Customer Schema
+
 const customerSchema = new mongoose.Schema({
-    ...userSchema,
+    ...userSchema.obj,
+    phone: {
+        type: Number,
+        required: true,
+        unique: true
+    },
+    role: {
+        type: String,
+        required: true,
+        enum: ["Customer"],
+        default: "Customer"
+    },
+    liveLocation: {
+        latitude: { type: Number },
+        longitude: { type: Number }
+    }
+    ,
+    address: {
+        type: String,
+    },
+
+});
+
+// Delivery Partner Schema
+
+const deliveryPartnerSchema = new mongoose.Schema({
+    ...userSchema.obj,
     email: {
         type: String,
         required: true,
@@ -28,5 +55,34 @@ const customerSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    phone: {
+        type: Number,
+        required: true,
+        unique: true
+    },
+    role: {
+        type: String,
+        required: true,
+        enum: ["DeliveryPartner"],
+        default: "DeliveryPartner"
+    },
+    liveLocation: {
+        latitude: { type: Number },
+        longitude: { type: Number }
     }
-});
+    ,
+    address: {
+        type: String,
+    },
+    branch: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Branch",
+
+    },
+    vehicleType: {
+        type: String,
+        required: true
+    },
+}
+);
