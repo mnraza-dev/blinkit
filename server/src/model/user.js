@@ -86,3 +86,30 @@ const deliveryPartnerSchema = new mongoose.Schema({
     },
 }
 );
+
+// Admin Schema
+
+const adminSchema = new mongoose.Schema({
+    ...userSchema.obj,
+    email: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    password: {
+        type: String,
+        required: true
+    },
+    role: {
+        type: String,
+        required: true,
+        enum: ["Admin"],
+        default: "Admin"
+    },
+
+});
+
+
+export const Customer = mongoose.model("Customer", customerSchema);
+export const DeliveryPartner = mongoose.model("DeliveryPartner", deliveryPartnerSchema);
+export const Admin = mongoose.model("Admin", adminSchema);
